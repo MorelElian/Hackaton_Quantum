@@ -16,7 +16,7 @@ def create_label_folder(
     os.mkdir(final_path + 'train/silos')
     os.mkdir(final_path + 'validation/silos')
     os.mkdir(final_path + 'test/silos/')
-  if(not os.path.exists(final_path + '/train/path_pas_silos')):
+  if(not os.path.exists(final_path + '/train/pas_silos')):
     os.mkdir(final_path + 'train/pas_silos/')
     os.mkdir(final_path + 'validation/pas_silos/')
     os.mkdir(final_path + 'test/pas_silos/')
