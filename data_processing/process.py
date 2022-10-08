@@ -46,12 +46,13 @@ def generate_train(
   return train,valid
 
 def generate_test(
-  test_path : str
+  test_path : str,
+  classified : bool = True,
   ):
     array_pas_silos = []
     array_silos =[]
     array_unclassified = []
-    if(os.exists(test_path +'/silos/')):
+    if(classified):
       for file in os.listdir(test_path +'/silos/'):
         path_and_file = test_path +'/silos/' + file
         img = tf.io.read_file(path_and_file)
