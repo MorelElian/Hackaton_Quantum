@@ -53,3 +53,7 @@ def generate_VGG(train_generator, validation_generator):
   model = tf.keras.models.Model(base_model.input, x)
 
   model.compile(optimizer = tf.keras.optimizers.RMSprop(lr=0.0001), loss = 'binary_crossentropy',metrics = ['acc'])
+
+  vgghist = model.fit(train_generator, validation_data = validation_generator, steps_per_epoch = 50, epochs = 5)
+
+  return model
