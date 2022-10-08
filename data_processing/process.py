@@ -50,16 +50,27 @@ def generate_test(
   ):
     array_pas_silos = []
     array_silos =[]
-    for file in os.listdir(test_path +'/silos/'):
-      path_and_file = test_path +'/silos/' + file
-      img = tf.io.read_file(path_and_file)
-      tensor = tf.io.decode_image(img, channels=3, dtype=tf.dtypes.float32)
-      tensor = tf.expand_dims(tensor, axis=0)
-      array_silos.append(tensor)
-    for file in os.listdir(test_path +'/pas_silos/'):
-      path_and_file = test_path +'/pas_silos/' + file
-      img = tf.io.read_file(path_and_file)
-      tensor = tf.io.decode_image(img, channels=3, dtype=tf.dtypes.float32)
-      tensor = tf.expand_dims(tensor, axis=0)
-      array_pas_silos.append(tensor)
-    return [array_silos,array_pas_silos]
+    array_unclassified = []
+    if(os.exists(test_path +'/silos/')):
+      for file in os.listdir(test_path +'/silos/'):
+        path_and_file = test_path +'/silos/' + file
+        img = tf.io.read_file(path_and_file)
+        tensor = tf.io.decode_image(img, channels=3, dtype=tf.dtypes.float32)
+        tensor = tf.expand_dims(tensor, axis=0)
+        array_silos.append(tensor)
+      for file in os.listdir(test_path +'/pas_silos/'):
+        path_and_file = test_path +'/pas_silos/' + file
+        img = tf.io.read_file(path_and_file)
+        tensor = tf.io.decode_image(img, channels=3, dtype=tf.dtypes.float32)
+        tensor = tf.expand_dims(tensor, axis=0)
+        array_pas_silos.append(tensor)
+      return [array_silos,array_pas_silos]
+    else:
+      for file in os.listdir(test_path):
+        path_and_file = test_path + file
+        img = tf.io.read_file(path_and_file)
+        tensor = tf.io.decode_image(img, channels=3, dtype=tf.dtypes.float32)
+        tensor = tf.expand_dims(tensor, axis=0)
+        array_unclassified.append(tensor)
+        return array_unclassified
+    

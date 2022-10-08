@@ -1,6 +1,6 @@
 import numpy as np
 
-def predict(model_fit, tensor_1, tensor_0):
+def evaluate(model_fit, tensor_1, tensor_0):
   y_pred1 = []
   for t in tensor_1:
     y_pred1.append(round(float(model_fit.predict_step(t))))
