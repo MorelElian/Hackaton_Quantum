@@ -2,11 +2,8 @@ import numpy as np
 
 def evaluate(model_fit, tensor_1, tensor_0, threshold=0.5):
 
-  y_pred1 = []
-  for t in tensor_1:
-
-    y_pred1.append(1 if model_fit.predict_step(t) > threshold else 0)
-
+  y_pred1 = [1 if model_fit.predict_step(t) > threshold else 0 for t in tensor_1]
+  
   NP = len(y_pred1)
   TP = sum(y_pred1)
   FN = NP - TP
