@@ -8,6 +8,7 @@ def create_label_folder(
   path_csv : str,
   final_path : str ) -> None : 
   """create folders silos and pas_silos in order to prepare the training of the model """
+
   df = pd.read_csv(path_csv)
   if(not os.path.exists(final_path + 'train/silos')):
     os.mkdir(final_path + 'train/')
@@ -37,6 +38,7 @@ def generate_train(
     image_size : int = 256
   ):
 
+  """ Generate augmented data in order to feed more data to the models """
   train_datagen = ImageDataGenerator(rescale = rescale_ratio,rotation_range = 30, width_shift_range = 0.2, height_shift_range = 0.2, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
   test_datagen = ImageDataGenerator( rescale = rescale_ratio)
   
@@ -49,6 +51,10 @@ def generate_test(
   test_path : str,
   classified : bool = True,
   ):
+
+  """ Transform test image into tensors which can be predicted by the models. 
+  Returns an array of tensorflow.tensors 
+  """
     array_pas_silos = []
     array_silos =[]
     array_unclassified = []

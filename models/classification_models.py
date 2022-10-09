@@ -8,6 +8,8 @@ from tensorflow.keras.applications.vgg16 import VGG16
 
 
 def generate_inception(train_generator, validation_generator):
+  """Generate the inception model. 
+  We use the structure of the inception Neural Network but we had a final dense layer which was retrained """
   base_model = InceptionV3(input_shape = (256, 256, 3), include_top = False, weights = 'imagenet')
 
   for layer in base_model.layers:
@@ -35,6 +37,7 @@ def generate_VGG(train_generator, validation_generator):
   include_top = False, # Leave out the last fully connected layer
   weights = 'imagenet')
 
+  """Generate the VGG-16 model. We retrained the last fully connected layer """
   for layer in base_model.layers:
     layer.trainable = False
 

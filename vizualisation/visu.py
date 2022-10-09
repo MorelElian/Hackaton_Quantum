@@ -11,14 +11,17 @@ def prompt_roc_curve(vgg_model,
                      pas_silos,
                      pas = 15):
   
+  """Calculate the metrics depending on the threshold. Calculate the AUC of ROC """
+
   df_results = pd.DataFrame(columns = ['confusion_matrix','precision','recall','F1-score','TPR','FNR','TNR','FPR','k','model'])
   
   vgg_probas_silos, vgg_probas_pas_silos = proba(vgg_model, silos, pas_silos)
   
   inc_probas_silos, inc_probas_pas_silos = proba(inception_model, silos, pas_silos)
 
-  vgg_auc = roc_auc_score(np.array([[p1, 1-p1] for p1 in vgg_probas_silos] + [[p0, 1-p0] for p0 in vgg_probas_pas_silos]))
-  inc_auc = roc_auc_score(np.array([[p1, 1-p1] for p1 in inc_probas_silos] + [[p0, 1-p0] for p0 in inc_probas_pas_silos]))
+  vgg_auc = roc_auc_score(np.array([[score_silos, 1-score_silos] for scores_silos in vgg_probas_silos] 
+                          + [[score_pas_silos, 1-score_pas_silos] for score_pas_silos in vgg_probas_pas_silos]))
+  inc_auc = roc_auc_score(np.array([[score_silos, 1-score_silos] for scores_silos in inc_probas_silos] + [[score_pas_silos, 1-score_pas_silos] for score_pas_silos in inc_probas_pas_silos]))
   
   for k in range(1,pas):
     _threshold = (float(k)) / pas

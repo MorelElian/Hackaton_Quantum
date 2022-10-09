@@ -3,6 +3,8 @@ import numpy as np
 def proba(model_fit,
             tensors_silos,
             tensor_pas_silos):
+  
+  """ Returns the scores sent by the model fitted on validation data"""
   probas_silos = [model_fit.predict_step(t) for t in tensors_silos]
   probas_pas_silos = [model_fit.predict_step(t) for t in tensors_pas_silos]
 
@@ -11,6 +13,18 @@ def proba(model_fit,
 def evaluate(probas_silos,
             probas_pas_silos,
             threshold=0.5):
+
+  """ Evaluate global metrics on validation data, depending on the prediction of the models. 
+      predictions must be split into probas_silos and probas_pas_silos
+      Metrics computed :
+      - precision
+      - recall
+      - F1-score
+      - True positive rate
+      - False negative rate
+      - True negative rate
+      - False positive rate
+      - Confusion matrix  """
     
   y_pred_on_silos = [1 if p > threshold else 0 for p in probas_silos]
   
