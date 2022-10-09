@@ -1,17 +1,20 @@
 import numpy as np
 
-def evaluate(model_fit, tensor_1, tensor_0, threshold=0.5):
+def evaluate(model_fit,
+            tensors_silos,
+            tensor_pas_silos,
+            threshold=0.5):
 
-  y_pred1 = [1 if model_fit.predict_step(t) > threshold else 0 for t in tensor_1]
+  y_pred_on_silos = [1 if model_fit.predict_step(t) > threshold else 0 for t in tensor_silos]
   
-  NP = len(y_pred1)
-  TP = sum(y_pred1)
+  NP = len(y_pred_on_silos)
+  TP = sum(y_pred_on_silos)
   FN = NP - TP
 
-  y_pred0 = [1 if model_fit.predict_step(t) > threshold else 0 for t in tensor_0]
+  y_pred_on_pas_silos = [1 if model_fit.predict_step(t) > threshold else 0 for t in tensor_pas_silos]
 
-  NN = len(y_pred0)
-  FP = sum(y_pred0)
+  NN = len(y_pred_on_pas_silos)
+  FP = sum(y_pred_on_pas_silos)
   TN = NN - FN
 
   precision = TP / (TP + FP)
@@ -33,7 +36,9 @@ def evaluate(model_fit, tensor_1, tensor_0, threshold=0.5):
           "FPR" : FPR
         }
 
-def predict(model_fit, tensor, threshold=0.5):
+def predict(model_fit,
+tensor,
+threshold=0.5):
   y_pred = []
   for t in tensor:
     y_pred.append(1 if model_fit.predict_step(t) > threshold else 0)
