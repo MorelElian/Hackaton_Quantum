@@ -8,9 +8,7 @@ def evaluate(model_fit, tensor_1, tensor_0, threshold=0.5):
   TP = sum(y_pred1)
   FN = NP - TP
 
-  y_pred0 = []
-  for t in tensor_0:
-    y_pred0.append(1 if model_fit.predict_step(t) > threshold else 0)
+  y_pred0 = [1 if model_fit.predict_step(t) > threshold else 0 for t in tensor_0]
 
   NN = len(y_pred0)
   FP = sum(y_pred0)

@@ -37,7 +37,7 @@ def generate_train(
     image_size : int = 256
   ):
 
-  train_datagen = ImageDataGenerator(rescale = rescale_ratio,rotation_range = 40, width_shift_range = 0.2, height_shift_range = 0.2, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
+  train_datagen = ImageDataGenerator(rescale = rescale_ratio,rotation_range = 30, width_shift_range = 0.2, height_shift_range = 0.2, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
   test_datagen = ImageDataGenerator( rescale = rescale_ratio)
   
   train = train_datagen.flow_from_directory(train_path , batch_size = _batch_size, class_mode = 'binary', target_size = (image_size, image_size))
