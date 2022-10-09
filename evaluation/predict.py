@@ -1,4 +1,7 @@
 import numpy as np
+import tensorflow as tf
+#model compile. 
+#create mask
 
 def proba(model_fit,
             tensors_silos,
@@ -66,3 +69,42 @@ proba=False):
     y_pred.append(1 if model_fit.predict_step(t) > threshold else 0)
 
   return np.array(y_pred)
+
+
+def iou_metric(dataset): 
+
+  m = tf.keras.metrics.IoU(num_classes=2,target_class_ids=[1])
+  for image, mask in dataset:
+    model_compiled = model_compile()
+    print(type(model_compiled))
+    model_compiled.load_weights('weights100.hdf5')
+    
+    predicted_image = model_compiled.predict(image)
+    predicted_mask = create_mask(predicted_image)
+    
+    converted_mask = np.dot(mask,[0.299,0.587,0.114])
+
+    m.update_state(predicted_mask,converted_mask)
+  return m.result().numpy()
+
+def test_one_image(image_test,path_weights):
+
+    #Transform Image
+
+    x = np.zeros((1,) + (256,256,3) , dtype="float32")
+    x[0] = image_test
+
+    #Predict Model
+    model_avant_fit = model_compile()
+    model = model_avant_fit.load_weights(path_weights)
+    predicted_img = model.predict(x)
+
+    #Create Mask
+    format = 'png'
+    epsilon = 0.595344
+    max = np.max(predicted_img)
+    eps = max*epsilon
+    pred_mask = pred_mask > max-eps
+    final_img = tf.keras.preprocessing.image.array_to_img(pred_mask)
+    final_png = final_img.format
+    return final_png

@@ -2,7 +2,7 @@ import pandas as pd
 import ploty.express as px
 import numpy as np
 from Hackaton_Quantum.evaluation.predict import proba, evaluate
-
+import matplotlib.pyplot as plt
 from sklearn.metrics import roc_auc_score
 
 def prompt_roc_curve(vgg_model,
@@ -41,3 +41,32 @@ def prompt_roc_curve(vgg_model,
     #px.line(df_results, x = 'recall', y = 'precision',color = 'model').show()
     #px.line(df_results, x = 'k',y = 'F1-score',color= 'model').show()
   return df_results
+
+
+def display(display_list):
+  """ Call shows_predictions to display images"""
+    plt.figure(figsize=(15, 15))
+
+    title = ['Input Image', 'True Mask', 'Predicted Mask']
+
+    for i in range(len(display_list)):
+        plt.subplot(1, len(display_list), i+1)
+        plt.title(title[i])
+        plt.imshow(tf.keras.preprocessing.image.array_to_img(display_list[i]))
+        plt.axis('off')
+    plt.show()-
+def show_predictions(dataset, num=6):
+  """
+  Displays the first image of each of the num batches
+  """
+  if dataset:
+    for image,mask in dataset:
+      model_compiled = model_compile()
+      model_compiled.load_weights('weights100.hdf5')
+      pred_mask = model_compiled.predict(image)
+      display([image[0], mask[0], create_mask(pred_mask)[0]])
+      #display([image[0], mask[0], pred_mask[0]])
+
+  else:
+    display([sample_image, sample_mask,
+    create_mask(model_compiled.predict(sample_image[tf.newaxis, ...]))])

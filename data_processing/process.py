@@ -133,3 +133,10 @@ def process_data_for_segmentation(path):
   datasets_valid = Silos(batch_size=32,img_size=(256,256,3),input_img_paths = image_list_valid,input_mask_paths = mask_list_valid)
   return datasets_train, datasets_valid
     
+def create_mask(pred_mask, epsilon=0.92):
+  """ Generate a mask from the image given by the model"""
+  max = np.max(pred_mask)
+  eps = max*epsilon
+    
+  pred_mask = pred_mask > (max-eps)
+  return pred_mask
