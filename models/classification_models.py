@@ -24,7 +24,7 @@ def generate_inception(train_generator, validation_generator):
 
   model.compile(optimizer = RMSprop(lr=0.0001), loss = 'binary_crossentropy', metrics = ['acc'])
 
-  nc_history = model.fit_generator(train_generator, validation_data = validation_generator, steps_per_epoch = 50, epochs = 5)
+  nc_history = model.fit_generator(train_generator, validation_data = validation_generator, steps_per_epoch = 50, epochs = 10)
 
   return model
 
@@ -54,6 +54,6 @@ def generate_VGG(train_generator, validation_generator):
 
   model.compile(optimizer = tf.keras.optimizers.RMSprop(lr=0.0001), loss = 'binary_crossentropy',metrics = ['acc'])
 
-  vgghist = model.fit(train_generator, validation_data = validation_generator, steps_per_epoch = 50, epochs = 5)
+  vgghist = model.fit(train_generator, validation_data = validation_generator, steps_per_epoch = 50, epochs = 10)
 
   return model
